@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HRMS Attendance</title>
+    <style>
+        body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        form input, form button { margin: 5px; padding: 5px; }
+        .btn { padding: 5px 10px; border: none; cursor: pointer; }
+        .btn-checkin { background: #28a745; color: white; }
+        .btn-checkout { background: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <h1>HRMS - Attendance System</h1>
+    <form action="/add" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="department" placeholder="Department" required>
+        <input type="number" name="salary" placeholder="Salary" required>
+        <button type="submit">Add Employee</button>
+    </form>
+
+    <h2>Employee List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees %}
+            <tr>
+                <td>{{ emp.name }}</td>
+                <td>{{ emp.department }}</td>
+                <td>{{ emp.salary }}</td>
+                <td>
+                    <a href="/checkin/{{ emp.id }}"><button class="btn btn-checkin">Check In</button></a>
+                    <a href="/checkout/{{ emp.id }}"><button class="btn btn-checkout">Check Out</button></a>
+                    <a href="/delete/{{ emp.id }}"><button class="btn">Delete</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Attendance Records</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance %}
+            <tr>
+                <td>{{ record.employee_id }}</td>
+                <td>{{ record.check_in }}</td>
+                <td>{{ record.check_out or 'Still working' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
